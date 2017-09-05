@@ -2,7 +2,31 @@
 Библиотека MBee-Arduino.
 Распространяется свободно. Надеемся, что программные продукты, созданные
 с помощью данной библиотеки будут полезными, однако никакие гарантии, явные или
-подразумеваемые не предоставляются. */
+подразумеваемые не предоставляются.
+
+The MIT License(MIT)
+
+MBee-Arduino Library.
+Copyright © 2017 Systems, modules and components. Moscow. Russia.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files(the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and / or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions :
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Code adapted from  XBee-Arduino library XBee.h. Copyright info below.
+* @file       XBee.h
+* @author     Andrew Rapp
+* @license    This project is released under the GNU License
+* @copyright  Copyright (c) 2009 Andrew Rapp. All rights reserved
+* @date       2009
+* @brief      Interface to the wireless XBee modules
+*/
 
 #ifndef SerialStar_h
 #define SerialStar_h
@@ -344,7 +368,6 @@ public:
 	Возвращает статус модема после рестарта.
 	*/
 	uint8_t getStatus();
-	static const uint8_t API_ID = MODEM_STATUS_API_FRAME;
 };
 
 /**
@@ -487,6 +510,7 @@ public:
 	Конструктор "по умолчанию".
 	*/
 	RxAcknowledgeResponse();
+	
 	/**
 	Возвращает frameId пакета, полученного удаленным модулем на который отправлено это подтверждение.
 	Может использоваться хостом для проверки доставки пакетов.
@@ -1015,5 +1039,247 @@ private:
 	Stream* _serial;
 };
 
+/**
+Этот класс может быть использован вместо класса SerialStar и позволяет самостоятельно создавать функции, которые будут автоматически вызываться при 
+получении пакетов от радиомодуля. Такой подход значительно упрощает процесс программирования. При использовании этого класса, прежде всего необходимо
+зарегистрировать свою callback функцию, с помощью метода onXxx. Каждый метод имеет аргумент uintptr_t, который может быть использован для передачи
+произвольных данных в callback-функцию. Такой подход является полезным при регистрации одной и той же callback-функции для нескольких событий, либо
+в случае, если функция должна выполнять разные действия в разных обстоятельствах. Обработка этих данных внутри функции является опциональной, однако
+присутствие их в списке аргументов callback-функции является обязательным. Если их обработка не предполагается, то данные можно просто 
+проигнорировать. Тип uintptr_t не является указателем, а является целочисленным. Размер его должен быть достаточен для хранения указателя, характерного
+для данной платформы Arduino. Например, его длина для плат, использующих AVR, должна быть не менее 16 бит, а для устройств на основе ARM - не менее 32. 
+Для каждого события может быть зарегистрирована только одна функция. Повторная регистрации функции для одного и того же события перепишет
+ранее зарегистрированную. Для отмены регистрации callback-функции, необходимо передать ей NULL вкачестве аргумента. Для того, чтобы callback-функции 
+работали, необходимо регулярно вызывать метод этого класса run(). Проще всего поместить вызов этого метода в главный цикл скетча - loop{}. Этот метод
+автоматически вызывает функции readPacket() и getResponse() и некоторые других из класса MBee. Таким образом, вызывать их непосредственно из скетча не
+требуется (хотя, если это сделать то ничего страшного не произойдет, тем не менее некоторые callback-функции могут после такого вызова не сработать).
+Внутри callback-функции не допускаются блокировки в виде задержек или ожиданий. Дело в том, что callback-функции вызываются изнутри функции waitFor()
+или других дружественных функций, и если быстро не вернуться из callback, то в функции waitFor() может произойти таймаут. Отправка пакетов внутри 
+callback-функции вполне допустима,однако вызов фукнций,связанных с приемом пакетов недопустим. К этим функциям относятся readPacket() waitFor() 
+и т.п. Вызов этих функций перепишет принятое ранее сообщение, что заблокирует вызов callback-функций для всех ожидающих событий. 
+*/
+class SerialStarWithCallbacks : public SerialStar 
+{
+public:
+	/**
+	Регистрация callback-функции для события ошибки чтения пакета. Зарегистрированная функция будет вызываться каждый раз при возникновении ошибки
+	разбора пакета, полученного	от радиомодуля. Аргументом при вызове будет являться код ошибки, аналогичный получаемому при вызове 
+	MBeeResponse::getErrorCode(), а также опциональные данные (или указатель на них), определенные при регистрации callback-функции.
+	*/
+	void onPacketError(void (*func)(uint8_t, uintptr_t), uintptr_t data = 0) 
+	{
+		_onPacketError.set(func, data); 
+	}
+
+	/**
+	Регистрация callback-функции для события приема пакета от модуля. Зарегистрированная функция будет вызываться всегда при любом успешном приеме 
+	пакета по UART перед тем, как	будет вызвана специфическая для принятого пакета callback-функция или функция onOtherResponse(), если 
+	специфическая функция не зарегистрирована. В качестве аргумента передается ссылка на принятый пакета, а также опциональные данные 
+  (или указатель на них), определенные при регистрации callback-функции.
+	*/
+	void onResponse(void (*func)(MBeeResponse&, uintptr_t), uintptr_t data = 0) 
+	{
+		_onResponse.set(func, data); 
+	}
+
+	/**
+	Регистрация callback-функции для события приема пакета от модуля. Зарегистрированная функция будет вызываться всегда при любом успешном приеме
+	пакета по UART если специфическая callback-функция для данного типа пакета не зарегистрирована. В качестве аргумента передается ссылка на 
+	принятый пакет, а также опциональные данные (или указатель на них), определенные при регистрации callback-функции.
+	*/
+	void onOtherResponse(void (*func)(MBeeResponse&, uintptr_t), uintptr_t data = 0) 
+	{
+		_onOtherResponse.set(func, data); 
+	}
+	
+	//Функции, регистрирующие специфические callback-функции для каждого типа API-фрейма. Callback-функции вызываются каждый раз при успешном приеме
+	//API-фрейма соответствующего типа после того, как быдет вызвана функция, зарегистрированна по onResponse().
+	//Аргументом callback-функции является принятый фрейм(уже конвертированный в соответсвующий тип) и указатель на данные, переданный при регистрации
+	//данной callback-функции.
+	
+	/**
+	Регистрация callback-функции, вызываемой при приеме API-фрейма со статусом модема (apiId = 0x8A).
+	*/
+	void onModemStatusResponse(void (*func)(ModemStatusResponse&, uintptr_t), uintptr_t data = 0) 
+	{
+		_onModemStatusResponse.set(func, data); 
+	}
+	
+	/**
+	Регистрация callback-функции, вызываемой при приеме API-фрейма со статусом передачи (apiId = 0x8B).
+	*/
+	void onTxStatusResponse(void (*func)(TxStatusResponse&, uintptr_t), uintptr_t data = 0)
+	{
+		_onTxStatusResponse.set(func, data); 
+	}
+
+	/**
+	Регистрация callback-функции, вызываемой при приеме API-фрейма с ответом на локальную AT-команду (apiId = 0x87, 0x88, 0x89).
+	*/	
+	void onAtCommandResponse(void (*func)(AtCommandResponse&, uintptr_t), uintptr_t data = 0) 
+	{
+		_onAtCommandResponse.set(func, data); 
+	}
+	
+	/**
+	Регистрация callback-функции, вызываемой при приеме API-фрейма с ответом на удаленную AT-команду (apiId = 0x97).
+	*/	
+	void onRemoteAtCommandResponse(void (*func)(RemoteAtCommandResponse&, uintptr_t), uintptr_t data = 0) 
+	{ 
+		_onRemoteAtCommandResponse.set(func, data); 
+	}
+	
+	/**
+	Регистрация callback-функции, вызываемой при приеме API-фрейма с подтверждением приема пакета от удаленного модема (apiId = 0x8C).
+	*/	
+	void onRxAcknowledgeResponse(void (*func)(RxAcknowledgeResponse&, uintptr_t), uintptr_t data = 0) 
+	{ 
+		_onRxAcknowledgeResponse.set(func, data); 
+	}
+	
+	/**
+	Регистрация callback-функции, вызываемой при приеме API-фрейма с неструктурированными данными от удаленного модема (apiId = 0x81, 0x8F).
+	*/	
+	void onRxResponse(void (*func)(RxResponse&, uintptr_t), uintptr_t data = 0) 
+	{ 
+		_onRxResponse.set(func, data); 
+	}
+	
+	/**
+	Регистрация callback-функции, вызываемой при приеме API-фрейма с данными о состоянии датчиков удаленного модема (apiId = 0x83).
+	*/
+	void onRxIoSampleResponse(void (*func)(RxIoSampleResponse&, uintptr_t), uintptr_t data = 0) 
+	{ 
+		_onRxIoSampleResponse.set(func, data); 
+	}
+
+	/**
+	Главный цикл. Этот метод должен регулярно вызываться для непрерывной обработки данных, поступающих от модуля MBee по последовательному интерфейсу
+  и вызова соответствующих callback-функций.
+	*/
+	void run();
+
+	/**
+	Принимает API-фрейм заданного типа, опционально отфильтрованного с помощью определенной функции проверки.	Если эта функция проверки определена,
+	то она вызывается каждый раз при приеме API-фрейма требуемого типа. В качестве параметров ей передаются	ссылка на ответ и указатель на поле 
+	данных. Если функция проверки возвращает true (или если такая проверочная функция не определена), то ожидание приема прекращается и осуществляется
+	возврат в вызывающую функцию с параметром 0. Если же проверочная функция возвращает false,то ожидание приема продолжается. По истечении заданного
+	времени ожидания, функция возвращает MBEE_WAIT_TIMEOUT (0xFF).	Если фрейм был отправлен с ненулевым frameID, то на него модуль должен получить ответ со
+	статусом. Если статус не равен 0 т.е. имела место	какая-либо ошибка, то ожидание прекращается и этот статусный байт передается как результат 
+	работы функции. Такое поведение объясняется	следующим: если фрейм предназначался для передачи по эфиру, то наличие	ошибок при его 
+	обработке/отправке(например вследствие занятости частотного канала) приводит к тому, в эфир он не уйдет	и, следовательно, ответа на него удаленного
+	узла ждать бессмысленно. Во время 	ожидания, любой принятый пакет передается в соответствующую callback-функцию также, как бы это происходило при 
+	непрерывном вызове run() исключая	только те фреймы, которые передаются в OnResponse()	и  никуда более. 	После вызова этого метода, пакет может быть
+	получен с помощью обычного вызова getResponse().
+	*/
+	template <typename Response>
+	uint8_t waitFor(Response& response, uint16_t timeout, bool (*func)(Response&, uintptr_t) = NULL, uintptr_t data = 0, int16_t frameId = -1) 
+	{
+		return waitForInternal(Response::API_ID, &response, timeout, (void*)func, data, frameId);
+	}
+	
+	/**
+	Передает в UART API-фрейм, предназначенный для передачи по эфиру и ждет ответа со статусом в течение заданного времени. Собственно говоря,
+	этот метод просто последовательно вызывает функции send() и waitForStatus(). См. функцию waitForStatus() для более получения более подробной
+	информации о возвращаемых параметрах и деталях.
+	*/
+	uint8_t sendAndWait(MBeeRequest &request, uint16_t timeout) 
+	{
+		send(request);
+		return waitForStatus(request.getFrameId(), timeout);
+	}
+	
+	/**
+	Передает в UART API-фрейм, предназначенный для передачи по эфиру. В течение заданного времени ждет ответа со статусом и подтверждение получения
+	пакета от удаленного модуля. Метод просто последовательно вызывает функции send(), waitForStatus() и waitForAcknowledge(). Ожидание подтверждения
+	приема инициализируется только при удачной отправке пакета в эфир т.е. если вызов waitForStatus() вернул 0. Функция возвращает 0, если принято
+	подтверждение получения и MBEE_WAIT_TIMEOUT(0xFF), если подтверждения так и не дождались. Если сообщение в эфир отправлено не было, то возвращается
+	статус передачи.
+	*/
+	uint8_t sendAndWaitForAcknowledge(MBeeRequest &request, uint16_t timeout);
+	
+	/**
+	Ждет приема ответного API-фрейма со статусом после отправки пакета с определенным frameId в течение заданного времени. При возникновении таймаута,
+	возвращает MBEE_WAIT_TIMEOUT(0xFF).	Во время 	ожидания, любой принятый пакет передается в соответствующую callback-функцию также, как бы это происходило
+	при непрерывном вызове run() исключая	только те фреймы, которые передаются в OnResponse()	и  никуда более. После вызова этого метода, пакет может 
+	быть получен с помощью обычного	вызова getResponse().
+	*/
+	uint8_t waitForStatus(uint8_t frameId, uint16_t timeout);
+	
+	/**
+	Ждет API-фрейм c подтверждением приема удаленным модулем пакета с определенным frameId в течение заданного времени. При возникновении таймаута,
+	возвращает MBEE_WAIT_TIMEOUT(0xFF).	Во время 	ожидания, любой принятый пакет передается в соответствующую callback-функцию также, как бы это происходило
+	при непрерывном вызове run() исключая	только те фреймы, которые передаются в OnResponse()	и  никуда более. После вызова этого метода, пакет может 
+	быть получен с помощью обычного	вызова getResponse().
+	*/
+	uint8_t waitForAcknowledge(uint8_t frameId, uint16_t timeout);
+	
+private:
+	/**
+	Приватная версия метода waitFor(), котрая не имеет шаблона по типу API-фрейма. Тем самым предотвращается создание метода для каждого возможного
+	ожидаемого типа фрейма. Вместо этого, данная функция принимает в качестве аргумента apiId фрейма, который она будет ждать и ставить в соответствие
+	заданному типа фрейма и аргумента необходимую функцию. Это значит, что передаваемый указатель на функцию должен соответствовать apiId.
+	*/
+	uint8_t waitForInternal(uint8_t apiId, void *response, uint16_t timeout, void *func, uintptr_t data, int16_t frameId);
+
+	/**
+	Хелпер-функция, проверящая является ли принятый API-фрейм ответом, содержащим статус фрейма с заданным frameId. Если да, тогда возвращает 
+	статусный байт, если нет, то 0xFF.
+	*/	
+	uint8_t matchStatus(uint8_t frameId);
+	
+	/**
+	Хелпер-функция, проверящая является ли принятый API-фрейм подтверждением приема от удаленного модуля пакета с заданнымframeId. Если да, тогда возвращает 
+	0, если нет, то 0xFF.
+	*/
+	uint8_t matchAcknowledge(uint8_t frameId);
+
+	/**
+	"Верхняя" часть главного цикла run(). Метод вызывает функции
+	readPacket(), onPacketError в случае возникновения ошибок при разборе 
+	буфера, а также функцию onResponse(), если пакет принят успешно. В
+	последнем случае возвращает true. При получении true вызывающая функция
+	должна обычно вызвать "нижнюю" часть главного цикла.
+	*/
+	bool loopTop();
+
+	/**
+	"Нижняя" часть главного цикла. Вызывается только в случае
+	успешного приема пакета. Вызывает callback-функцию, соответствующую
+	типу принятого пакета.
+	*/
+	void loopBottom();
+
+	template <typename Arg> struct Callback 
+	{
+		void (*func)(Arg, uintptr_t);
+		uintptr_t data;
+		void set(void (*func)(Arg, uintptr_t), uintptr_t data) 
+		{
+			this->func = func;
+			this->data = data;
+		}
+		bool call(Arg arg) 
+		{
+			if(this->func) 
+			{
+				this->func(arg, this->data);
+				return true;
+			}
+			return false;
+		}
+	};
+
+	Callback<uint8_t> _onPacketError;
+	Callback<MBeeResponse&> _onResponse;
+	Callback<MBeeResponse&> _onOtherResponse;
+  Callback<ModemStatusResponse&> _onModemStatusResponse;
+	Callback<TxStatusResponse&> _onTxStatusResponse;
+	Callback<AtCommandResponse&> _onAtCommandResponse;
+	Callback<RemoteAtCommandResponse&> _onRemoteAtCommandResponse;
+	Callback<RxAcknowledgeResponse&> _onRxAcknowledgeResponse;
+	Callback<RxResponse&> _onRxResponse;
+	Callback<RxIoSampleResponse&> _onRxIoSampleResponse;
+};
 
 #endif //SerialStar_h
