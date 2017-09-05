@@ -74,10 +74,11 @@ $(function() {
  <div class="center">
   <img src="class_m_bee.png" usemap="#MBee_map" alt=""/>
   <map id="MBee_map" name="MBee_map">
-<area href="class_m_bee2400.html" title="Базовый класс для работы с модулями диапазона 2,4 ГГц. " alt="MBee2400" shape="rect" coords="0,56,79,80"/>
-<area href="class_m_bee868.html" title="Базовый класс для работы с модулями диапазона 868 МГц. " alt="MBee868" shape="rect" coords="89,56,168,80"/>
-<area href="class_m_b___zig_bee.html" title="Класс для проекта MB-ZigBee диапазона 2.4 ГГц. " alt="MB_ZigBee" shape="rect" coords="0,112,79,136"/>
-<area href="class_serial_star.html" title="Класс для проекта SerialStar диапазона 868 МГц. " alt="SerialStar" shape="rect" coords="89,112,168,136"/>
+<area href="class_m_bee2400.html" title="Базовый класс для работы с модулями диапазона 2,4 ГГц. " alt="MBee2400" shape="rect" coords="0,56,147,80"/>
+<area href="class_m_bee868.html" title="Базовый класс для работы с модулями диапазона 868 МГц. " alt="MBee868" shape="rect" coords="157,56,304,80"/>
+<area href="class_m_b___zig_bee.html" title="Класс для проекта MB-ZigBee диапазона 2.4 ГГц. " alt="MB_ZigBee" shape="rect" coords="0,112,147,136"/>
+<area href="class_serial_star.html" title="Класс для проекта SerialStar диапазона 868 МГц. " alt="SerialStar" shape="rect" coords="157,112,304,136"/>
+<area href="class_serial_star_with_callbacks.html" title="Этот класс может быть использован вместо класса SerialStar и позволяет самостоятельно создавать функц..." alt="SerialStarWithCallbacks" shape="rect" coords="157,168,304,192"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -128,7 +129,7 @@ Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td><
 <p>С целью экономии ресурсов микроконтроллера Arduino, библиотека поддерживает хранение только одного принятого пакета в каждый момент времени. Это означает, то скетч должен полностью обработать предыдущий пакет, прежде чем вызывать очередную функцию чтения readPacket(...). </p>
 <p>Размер памяти для хранения принятого пакета определяется константой MAX_FRAME_DATA_SIZE, которая зависит от программного обеспечения, загруженного в радиомодуль. Эта константа соответствует максимально возможной длине пакета от модуля. Если в Вашем проекте используются пакеты с длиной меньше максимальной, то Вы можете точно настроить значение константы MAX_FRAME_DATA_SIZE с целью экономии ресурсов микроконтроллера. </p><dl class="section author"><dt>Автор</dt><dd>von Boduen. Special thanx to Andrew Rapp. </dd></dl>
 
-<p class="definition">См. определение в файле <a class="el" href="_m_bee_8h_source.html">MBee.h</a> строка <a class="el" href="_m_bee_8h_source.html#l00083">83</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_m_bee_8h_source.html">MBee.h</a> строка <a class="el" href="_m_bee_8h_source.html#l00110">110</a></p>
 </div><h2 class="groupheader">Методы</h2>
 <a id="af8382041415c32bc5c51a0a76e767aca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af8382041415c32bc5c51a0a76e767aca">&#9670;&nbsp;</a></span>readPacket() <span class="overload">[1/2]</span></h2>
@@ -273,7 +274,7 @@ Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td><
 <p>Назначает последовательный порт. </p>
 <p>Работает только на платах с несколькими аппаратными UART (Mega и т.п.) </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a> строка <a class="el" href="_m_bee_8cpp_source.html#l00026">26</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a> строка <a class="el" href="_m_bee_8cpp_source.html#l00050">50</a></p>
 
 </div>
 </div>

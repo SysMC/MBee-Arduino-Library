@@ -201,7 +201,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <div class="textblock"><p>Супер класс для всех пакетов, передаваемых по UART модулями MBee-868-x.0 в проекте <a class="el" href="class_serial_star.html" title="Класс для проекта SerialStar диапазона 868 МГц. ">SerialStar</a>. </p>
 <p>Запрещается создавать объекты непосредственно этого класса. Необходимо использовать подклассы для соответствующих проектов. Для экономии памяти рекомендуется повторное использование объектов подклассов. </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l00163">163</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l00187">187</a></p>
 </div><h2 class="groupheader">Методы</h2>
 <a id="a60f83eb3ed2b6220649b44aa1ce9f4d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a60f83eb3ed2b6220649b44aa1ce9f4d0">&#9670;&nbsp;</a></span>getAtCommandResponse()</h2>
@@ -222,7 +222,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <p>Вызов <a class="el" href="class_at_command_response.html" title="Класс для ответа на локальный командный API-фрейм. ">AtCommandResponse</a> при <a class="el" href="class_m_bee_response.html#aad49762766ee2949febaca77f068d1f2" title="Возвращает тип API-фрейма. ">getApiId()</a> == AT_COMMAND_RESPONSE_API_FRAME 0x88 (ex. </p>
 <p>AT_COMMAND_RESPONSE). </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00128">128</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00152">152</a></p>
 
 </div>
 </div>
@@ -244,7 +244,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <p>Возвращает код ошибки или 0, если их нет. </p>
 <p>Возможные коды ошибок: CHECKSUM_FAILURE, PACKET_EXCEEDS_BYTE_ARRAY_LENGTH, UNEXPECTED_START_BYTE. </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00150">150</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00174">174</a></p>
 
 </div>
 </div>
@@ -266,7 +266,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <p>Возвращает указатель на буфер, который содержит сообщение. </p>
 <p>Первым байтом сообщения является байт, следующий непосредственно за байтом типа API-фрейма (API ID). Последним байтом является байт перед контрольной суммой. Такое трактование отличается от определения длины API-фрейма, которое включает в себя поле типа API-фрейма. Однако, поскольку формат каждого API-фрейма предполагает наличие на 4-ой позиции байта API ID, то смысла хранить его еще раз (а поле API ID хранится в особой переменной apiId) нет. </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00072">72</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00096">96</a></p>
 
 </div>
 </div>
@@ -289,7 +289,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <p>Вызов <a class="el" href="class_modem_status_response.html" title="Класс для API-фрейма со статусом модема после инициализации. ">ModemStatusResponse</a> при <a class="el" href="class_m_bee_response.html#aad49762766ee2949febaca77f068d1f2" title="Возвращает тип API-фрейма. ">getApiId()</a> == MODEM_STATUS_API_FRAME 0x8A (ex. </p>
 <p>MODEM_STATUS_RESPONSE). </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00121">121</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00145">145</a></p>
 
 </div>
 </div>
@@ -312,7 +312,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <p>Вызов <a class="el" href="class_remote_at_command_response.html" title="Класс для ответа на командный API-фрейм для удаленного узла. ">RemoteAtCommandResponse</a> при <a class="el" href="class_m_bee_response.html#aad49762766ee2949febaca77f068d1f2" title="Возвращает тип API-фрейма. ">getApiId()</a> == REMOTE_AT_COMMAND_RESPONSE_API_FRAME 0x97 (ex. </p>
 <p>REMOTE_AT_COMMAND_RESPONSE). </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00175">175</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00199">199</a></p>
 
 </div>
 </div>
@@ -335,7 +335,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <p>Вызов <a class="el" href="class_rx_io_sample_response.html">RxIoSampleResponse</a> при <a class="el" href="class_m_bee_response.html#aad49762766ee2949febaca77f068d1f2" title="Возвращает тип API-фрейма. ">getApiId()</a> == IO_DATA_SAMPLE_API_FRAME 0x83 (ex. </p>
 <p>RX_16_IO_RESPONSE). </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00114">114</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00138">138</a></p>
 
 </div>
 </div>
@@ -358,7 +358,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <p>Вызов <a class="el" href="class_rx_response.html" title="Класс для выдачи в UART принятых по эфиру пакетов, содержаших неструктированные данные. ">RxResponse</a> при <a class="el" href="class_m_bee_response.html#aad49762766ee2949febaca77f068d1f2" title="Возвращает тип API-фрейма. ">getApiId()</a> == RECEIVE_PACKET_API_FRAME 0x81(ex. </p>
 <p>RX_16_RESPONSE). </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00107">107</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00131">131</a></p>
 
 </div>
 </div>
@@ -381,7 +381,7 @@ uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>_frameDataPtr</b
 <p>Вызов <a class="el" href="class_tx_status_response.html" title="Класс для локального ответа модуля со статусом передачи в эфир или размещением в буфере. ">TxStatusResponse</a> при <a class="el" href="class_m_bee_response.html#aad49762766ee2949febaca77f068d1f2" title="Возвращает тип API-фрейма. ">getApiId()</a> == TRANSMIT_STATUS_API_FRAME 0x8B(ex. </p>
 <p>ZB_TX_STATUS_RESPONSE). </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00100">100</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8cpp_source.html">SerialStar.cpp</a> строка <a class="el" href="_serial_star_8cpp_source.html#l00124">124</a></p>
 
 </div>
 </div>
