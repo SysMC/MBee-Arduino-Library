@@ -2,7 +2,31 @@
 Библиотека MBee-Arduino.
 Распространяется свободно. Надеемся, что программные продукты, созданные
 с помощью данной библиотеки будут полезными, однако никакие гарантии, явные или
-подразумеваемые не предоставляются. */
+подразумеваемые не предоставляются.
+
+The MIT License(MIT)
+
+MBee-Arduino Library.
+Copyright © 2017 Systems, modules and components. Moscow. Russia.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files(the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and / or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions :
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Code adapted from  XBee-Arduino library XBee.h. Copyright info below.
+* @file       XBee.h
+* @author     Andrew Rapp
+* @license    This project is released under the GNU License
+* @copyright  Copyright (c) 2009 Andrew Rapp. All rights reserved
+* @date       2009
+* @brief      Interface to the wireless XBee modules
+*/
 
 #include "MBee.h"
 
@@ -1145,3 +1169,264 @@ MBeeResponse& SerialStar::getResponse()
 	_checksumTotal = 0;
 	_response.reset();
 }
+
+/*********************************************************************
+ * Public методы класса SerialStarWithCallbacks.
+ *********************************************************************/
+void SerialStarWithCallbacks::run() 
+ {
+	if(loopTop())
+		loopBottom();
+}
+
+uint8_t SerialStarWithCallbacks::sendAndWaitForAcknowledge(MBeeRequest &request, uint16_t timeout)
+{
+	uint8_t status;
+	unsigned long start = millis();
+	send(request);
+	status = waitForStatus(request.getFrameId(), timeout - (millis() - start));
+	if(status)
+		return status;
+	return waitForAcknowledge(request.getFrameId(), timeout - (millis() - start));
+}
+
+uint8_t SerialStarWithCallbacks::waitForStatus(uint8_t frameId, uint16_t timeout) 
+{
+	unsigned long start = millis();
+	do
+	{
+		if(loopTop()) 
+		{
+			uint8_t status = matchStatus(frameId);
+			if(status != 0xff)
+				return status;
+			loopBottom(); //Вызываем регулярные callback-функции.
+		}
+	} while (millis() - start < timeout);
+	return MBEE_WAIT_TIMEOUT ;
+}
+
+uint8_t SerialStarWithCallbacks::waitForAcknowledge(uint8_t frameId, uint16_t timeout) 
+{
+	unsigned long start = millis();
+	do
+	{
+		if(loopTop()) 
+		{
+			uint8_t status = matchAcknowledge(frameId);
+			if(!status)
+				return 0;
+			loopBottom(); //Вызываем регулярные callback-функции.
+		}
+	} while (millis() - start < timeout);
+	return MBEE_WAIT_TIMEOUT ;
+}
+
+ /*********************************************************************
+ * Private методы класса SerialStarWithCallbacks.
+ *********************************************************************/
+uint8_t SerialStarWithCallbacks::waitForInternal(uint8_t apiId, void *response, uint16_t timeout, void *func, uintptr_t data, int16_t frameId) 
+{
+	unsigned long start = millis();
+	do 
+	{
+		if(loopTop()) //Ждем API-фрейм заданного типа.
+		{
+			if(frameId >= 0) 
+			{
+				uint8_t status = matchStatus(frameId);
+				if(status != 0xff && status != 0) //Если был принят фрейм со статусом и этот статус говорит о произошедшей ошибке, то прекращаем ожидание.
+					return status;
+			}
+			if(getResponse().getApiId() == apiId) 
+			{
+				//Если принят API-фрейм требуемого типа, то вызываем соответствующую apiId функцию преобразования типа принятого фрейма и затем функцию обработки.
+				//Так как функции обработки вызываются одним и тем же способом, независимо от обрабатываемого подкласса (типа API-фрейма), то компилятор может
+				//сократить всю эту кучу кода, находящуюся ниже в единственный блок. Хотя, для полной оптимизации, отдельные методы getXxxResponse() должны быть
+				//унифицированы подобным образом.
+				switch(apiId) 
+				{
+					case MODEM_STATUS_API_FRAME: 
+					{
+						ModemStatusResponse *r = (ModemStatusResponse*)response;
+						bool(*f)(ModemStatusResponse&,uintptr_t) = (bool(*)(ModemStatusResponse&,uintptr_t))func;
+						getResponse().getModemStatusResponse(*r);
+						if(!f || f(*r, data))
+							return 0;
+						break;
+					}
+					
+					case TRANSMIT_STATUS_API_FRAME: 
+					{
+						TxStatusResponse *r = (TxStatusResponse*)response;
+						bool(*f)(TxStatusResponse&,uintptr_t) = (bool(*)(TxStatusResponse&,uintptr_t))func;
+						getResponse().getTxStatusResponse(*r);
+						if(!f || f(*r, data))
+							return 0;
+						break;
+					}
+					
+					case AT_COMMAND_RESPONSE_IMMEDIATE_APPLY_API_FRAME: 
+					case AT_COMMAND_RESPONSE_API_FRAME: 
+					case AT_COMMAND_RESPONSE_QUEUE_PARAMETER_VALUE_API_FRAME: 
+					{
+						AtCommandResponse *r = (AtCommandResponse*)response;
+						bool(*f)(AtCommandResponse&,uintptr_t) = (bool(*)(AtCommandResponse&,uintptr_t))func;
+						getResponse().getAtCommandResponse(*r);
+						if(!f || f(*r, data))
+							return 0;
+						break;
+					}
+					
+					case REMOTE_AT_COMMAND_RESPONSE_API_FRAME: 
+					{
+						RemoteAtCommandResponse *r = (RemoteAtCommandResponse*)response;
+						bool(*f)(RemoteAtCommandResponse&,uintptr_t) = (bool(*)(RemoteAtCommandResponse&,uintptr_t))func;
+						getResponse().getRemoteAtCommandResponse(*r);
+						if(!f || f(*r, data))
+							return 0;
+						break;
+					}
+					
+					case REMOTE_ACKNOWLEDGE_API_FRAME: 
+					{
+						RxAcknowledgeResponse *r = (RxAcknowledgeResponse*)response;
+						bool(*f)(RxAcknowledgeResponse&,uintptr_t) = (bool(*)(RxAcknowledgeResponse&,uintptr_t))func;
+						getResponse().getRxAcknowledgeResponse(*r);
+						if(!f || f(*r, data))
+							return 0;
+						break;
+					}
+					
+					case RECEIVE_PACKET_API_FRAME:
+					case RECEIVE_PACKET_NO_OPTIONS_API_FRAME:
+					{
+						RxResponse *r = (RxResponse*)response;
+						bool(*f)(RxResponse&,uintptr_t) = (bool(*)(RxResponse&,uintptr_t))func;
+						getResponse().getRxResponse(*r);
+						if(!f || f(*r, data))
+							return 0;
+						break;
+					}
+					
+					case IO_DATA_SAMPLE_API_FRAME: 
+					{
+						RxResponse *r = (RxResponse*)response;
+						bool(*f)(RxResponse&,uintptr_t) = (bool(*)(RxResponse&,uintptr_t))func;
+						getResponse().getRxResponse(*r);
+						if(!f || f(*r, data))
+							return 0;
+						break;
+					}
+				}
+			}
+			loopBottom();
+		}
+	} while (millis() - start < timeout);
+	return MBEE_WAIT_TIMEOUT;
+}
+
+uint8_t SerialStarWithCallbacks::matchStatus(uint8_t frameId) 
+{
+	uint8_t id = getResponse().getApiId();
+	uint8_t *data = getResponse().getFrameData();
+	uint8_t len = getResponse().getFrameDataLength();
+	uint8_t offset = 0;
+
+	//Если фрейм имеет поле frameId, то определяем с каким смещением расположен в нем байт статуса.
+	if((id == AT_COMMAND_RESPONSE_IMMEDIATE_APPLY_API_FRAME) || (id == AT_COMMAND_RESPONSE_API_FRAME) || (id == AT_COMMAND_RESPONSE_QUEUE_PARAMETER_VALUE_API_FRAME))
+		offset = 3;
+	else if(id == REMOTE_AT_COMMAND_RESPONSE_API_FRAME)
+		offset = 6;
+	else if(id == TRANSMIT_STATUS_API_FRAME)
+		offset = 1;
+
+	//Если фрейм содержит байт статуса (определяется по смещению не равному 0), если длина принятого фрейма больше, чем смещение (фрейм корректен), а также если
+	//требуемый frameId совпадает с frameId, содержащимся в принятом фрейме, то считываем байт статуса.
+	if(offset && offset < len && data[0] == frameId)
+		return data[offset];
+	return 0xff;
+}
+
+uint8_t SerialStarWithCallbacks::matchAcknowledge(uint8_t frameId) 
+{
+	uint8_t id = getResponse().getApiId();
+	uint8_t *data = getResponse().getFrameData();
+	if(id == REMOTE_ACKNOWLEDGE_API_FRAME)
+	{
+		if(data[4] == frameId) //В 4-б байте передается frameId подтверждаемого пакета.
+			return 0;
+	}
+	return 0xff;
+}
+
+bool SerialStarWithCallbacks::loopTop() 
+{
+	readPacket();
+	if(getResponse().isAvailable()) 
+	{
+		_onResponse.call(getResponse());
+		return true;
+	}
+	else if(getResponse().isError()) 
+	{
+		_onPacketError.call(getResponse().getErrorCode());
+	}
+	return false;
+}
+
+void SerialStarWithCallbacks::loopBottom() 
+{
+	bool called = false;
+	uint8_t id = getResponse().getApiId();
+	if(id == MODEM_STATUS_API_FRAME) 
+	{
+		ModemStatusResponse response;
+		getResponse().getModemStatusResponse(response);
+		called = _onModemStatusResponse.call(response);
+	}
+	else if(id == TRANSMIT_STATUS_API_FRAME) 
+	{
+		TxStatusResponse response;
+		getResponse().getTxStatusResponse(response);
+		called = _onTxStatusResponse.call(response);
+	}
+	else if((id == AT_COMMAND_RESPONSE_IMMEDIATE_APPLY_API_FRAME) || (id == AT_COMMAND_RESPONSE_API_FRAME) || (id == AT_COMMAND_RESPONSE_QUEUE_PARAMETER_VALUE_API_FRAME))
+	{
+		AtCommandResponse response;
+		getResponse().getAtCommandResponse(response);
+		called = _onAtCommandResponse.call(response);
+	}
+	else if(id == REMOTE_AT_COMMAND_RESPONSE_API_FRAME) 
+	{
+		RemoteAtCommandResponse response;
+		getResponse().getRemoteAtCommandResponse(response);
+		called = _onRemoteAtCommandResponse.call(response);
+	}
+	else if(id == REMOTE_ACKNOWLEDGE_API_FRAME) 
+	{
+		RxAcknowledgeResponse response;
+		getResponse().getRxAcknowledgeResponse(response);
+		called = _onRxAcknowledgeResponse.call(response);
+	}
+	else if((id == RECEIVE_PACKET_API_FRAME) || (id == RECEIVE_PACKET_NO_OPTIONS_API_FRAME))
+	{
+		RxResponse response;
+		getResponse().getRxResponse(response);
+		called = _onRxResponse.call(response);
+	}
+	else if(id == IO_DATA_SAMPLE_API_FRAME) 
+	{
+		RxIoSampleResponse response;
+		getResponse().getRxIoSampleResponse(response);
+		called = _onRxIoSampleResponse.call(response);
+	}
+	
+	if (!called)
+		_onOtherResponse.call(getResponse());
+}
+
+ 
+
+
+ 
