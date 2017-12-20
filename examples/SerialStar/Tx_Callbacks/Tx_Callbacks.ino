@@ -88,7 +88,7 @@ void loop()
   //statusLed включился 1 раз на 2000 мс - нет ответа от удаленного модема. 
   
   if(mbee.sendAndWaitForAcknowledge(tx, ACKNOWLEDGE_TIMEOUT) != MBEE_WAIT_TIMEOUT)
-    flashLed(statusLed, 3, 200); //Данные успешно доставлены на уделеный модем.
+    flashLed(statusLed, 3, 200); //Данные успешно доставлены на удаленый модем.
   else
     flashLed(statusLed, 1, 2000); //Нет ответа от удаленного модема. 
   while(1); //Останавливаем скетч и ждем нажатия кнопки "RESET".

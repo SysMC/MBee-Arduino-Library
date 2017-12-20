@@ -88,7 +88,7 @@ void loop()
 }
 
 //Зарегистрированная функция обработки пакета с данными о состоянии цифровых и аналоговых датчиков на удаленном модеме.
-void rxIoSampleResponseCallback(RxIoSampleResponse& ioSample)
+void rxIoSampleResponseCallback(RxIoSampleResponse& ioSample, uintptr_t optionalParameter)
 {
   nss.println("");
   nss.print("Received packet with I/O samples from remote modem with address: ");

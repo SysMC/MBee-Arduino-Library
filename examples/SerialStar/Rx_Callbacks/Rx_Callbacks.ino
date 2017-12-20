@@ -71,7 +71,7 @@ void loop()
 }
 
 //Зарегистрированная функция обработки пакета с неструктурированными данными.
-void rxResponseCallback(RxResponse& rx)
+void rxResponseCallback(RxResponse& rx, uintptr_t optionalParameter)
 {
   uint8_t data;
   //Ниже приводятся некоторые функции доступа к различным полям пакета.
