@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Класс SerialStarWithCallbacks</title>
+<title>My Project: Класс SerialStarWithCallbacks</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,6 +21,10 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="MBee.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">My Project
+   </div>
+  </td>
  </tr>
  </tbody>
 </table>
@@ -189,7 +193,7 @@ Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td><
 <div class="textblock"><p>Этот класс может быть использован вместо класса <a class="el" href="class_serial_star.html" title="Класс для проекта SerialStar диапазона 868 МГц. ">SerialStar</a> и позволяет самостоятельно создавать функции, которые будут автоматически вызываться при получении пакетов от радиомодуля. </p>
 <p>Такой подход значительно упрощает процесс программирования. При использовании этого класса, прежде всего необходимо зарегистрировать свою callback функцию, с помощью метода onXxx. Каждый метод имеет аргумент uintptr_t, который может быть использован для передачи произвольных данных в callback-функцию. Такой подход является полезным при регистрации одной и той же callback-функции для нескольких событий, либо в случае, если функция должна выполнять разные действия в разных обстоятельствах. Обработка этих данных внутри функции является опциональной, однако присутствие их в списке аргументов callback-функции является обязательным. Если их обработка не предполагается, то данные можно просто проигнорировать. Тип uintptr_t не является указателем, а является целочисленным. Размер его должен быть достаточен для хранения указателя, характерного для данной платформы Arduino. Например, его длина для плат, использующих AVR, должна быть не менее 16 бит, а для устройств на основе ARM - не менее 32. Для каждого события может быть зарегистрирована только одна функция. Повторная регистрации функции для одного и того же события перепишет ранее зарегистрированную. Для отмены регистрации callback-функции, необходимо передать ей NULL вкачестве аргумента. Для того, чтобы callback-функции работали, необходимо регулярно вызывать метод этого класса <a class="el" href="class_serial_star_with_callbacks.html#a1a47611de270717aa2caa88f34a9c4ad" title="Главный цикл. ">run()</a>. Проще всего поместить вызов этого метода в главный цикл скетча - loop{}. Этот метод автоматически вызывает функции <a class="el" href="class_serial_star.html#ab3e035dd7818ce3ee2fbf72f0eb6076e" title="Чтение всех байт, имеющихся в приемном буфере UART. ">readPacket()</a> и getResponse() и некоторые других из класса <a class="el" href="class_m_bee.html" title="Основной интерфейс для связи с радиомодулями MBee всех серий. ">MBee</a>. Таким образом, вызывать их непосредственно из скетча не требуется (хотя, если это сделать то ничего страшного не произойдет, тем не менее некоторые callback-функции могут после такого вызова не сработать). Внутри callback-функции не допускаются блокировки в виде задержек или ожиданий. Дело в том, что callback-функции вызываются изнутри функции <a class="el" href="class_serial_star_with_callbacks.html#a7d5ead5a3a3ddf06bd541a18658d64d8" title="Принимает API-фрейм заданного типа, опционально отфильтрованного с помощью определенной функции прове...">waitFor()</a> или других дружественных функций, и если быстро не вернуться из callback, то в функции <a class="el" href="class_serial_star_with_callbacks.html#a7d5ead5a3a3ddf06bd541a18658d64d8" title="Принимает API-фрейм заданного типа, опционально отфильтрованного с помощью определенной функции прове...">waitFor()</a> может произойти таймаут. Отправка пакетов внутри callback-функции вполне допустима,однако вызов фукнций,связанных с приемом пакетов недопустим. К этим функциям относятся <a class="el" href="class_serial_star.html#ab3e035dd7818ce3ee2fbf72f0eb6076e" title="Чтение всех байт, имеющихся в приемном буфере UART. ">readPacket()</a> <a class="el" href="class_serial_star_with_callbacks.html#a7d5ead5a3a3ddf06bd541a18658d64d8" title="Принимает API-фрейм заданного типа, опционально отфильтрованного с помощью определенной функции прове...">waitFor()</a> и т.п. Вызов этих функций перепишет принятое ранее сообщение, что заблокирует вызов callback-функций для всех ожидающих событий. </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01061">1061</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01062">1062</a></p>
 </div><h2 class="groupheader">Методы</h2>
 <a id="a045525de08eb8b5829d9b9221c6bebc4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a045525de08eb8b5829d9b9221c6bebc4">&#9670;&nbsp;</a></span>onOtherResponse()</h2>
@@ -228,7 +232,7 @@ Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td><
 <p>Регистрация callback-функции для события приема пакета от модуля. </p>
 <p>Зарегистрированная функция будет вызываться всегда при любом успешном приеме пакета по UART если специфическая callback-функция для данного типа пакета не зарегистрирована. В качестве аргумента передается ссылка на принятый пакет, а также опциональные данные (или указатель на них), определенные при регистрации callback-функции. </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01090">1090</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01091">1091</a></p>
 
 </div>
 </div>
@@ -269,7 +273,7 @@ Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td><
 <p>Регистрация callback-функции для события ошибки чтения пакета. </p>
 <p>Зарегистрированная функция будет вызываться каждый раз при возникновении ошибки разбора пакета, полученного от радиомодуля. Аргументом при вызове будет являться код ошибки, аналогичный получаемому при вызове <a class="el" href="class_m_bee_response.html#a9576bb06e8cc3ea30ab47cdfe06dc060" title="Возвращает код ошибки или 0, если их нет. ">MBeeResponse::getErrorCode()</a>, а также опциональные данные (или указатель на них), определенные при регистрации callback-функции. </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01069">1069</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01070">1070</a></p>
 
 </div>
 </div>
@@ -310,7 +314,7 @@ Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td><
 <p>Регистрация callback-функции для события приема пакета от модуля. </p>
 <p>Зарегистрированная функция будет вызываться всегда при любом успешном приеме пакета по UART перед тем, как будет вызвана специфическая для принятого пакета callback-функция или функция <a class="el" href="class_serial_star_with_callbacks.html#a045525de08eb8b5829d9b9221c6bebc4" title="Регистрация callback-функции для события приема пакета от модуля. ">onOtherResponse()</a>, если специфическая функция не зарегистрирована. В качестве аргумента передается ссылка на принятый пакета, а также опциональные данные (или указатель на них), определенные при регистрации callback-функции. </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01080">1080</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01081">1081</a></p>
 
 </div>
 </div>
@@ -373,7 +377,7 @@ Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td><
 <p>Передает в UART API-фрейм, предназначенный для передачи по эфиру и ждет ответа со статусом в течение заданного времени. </p>
 <p>Собственно говоря, этот метод просто последовательно вызывает функции <a class="el" href="class_serial_star.html#a2ebc218ace065aea834a939bcd1fd15b" title="Передача данных модулю или удаленному узлу. ">send()</a> и <a class="el" href="class_serial_star_with_callbacks.html#aa856a278f5f7b374281c4cb49f842927" title="Ждет приема ответного API-фрейма со статусом после отправки пакета с определенным frameId в течение з...">waitForStatus()</a>. См. функцию <a class="el" href="class_serial_star_with_callbacks.html#aa856a278f5f7b374281c4cb49f842927" title="Ждет приема ответного API-фрейма со статусом после отправки пакета с определенным frameId в течение з...">waitForStatus()</a> для более получения более подробной информации о возвращаемых параметрах и деталях. </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01186">1186</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01187">1187</a></p>
 
 </div>
 </div>
@@ -467,7 +471,7 @@ template&lt;typename Response &gt; </div>
 <p>Принимает API-фрейм заданного типа, опционально отфильтрованного с помощью определенной функции проверки. </p>
 <p>Если эта функция проверки определена, то она вызывается каждый раз при приеме API-фрейма требуемого типа. В качестве параметров ей передаются ссылка на ответ и указатель на поле данных. Если функция проверки возвращает true (или если такая проверочная функция не определена), то ожидание приема прекращается и осуществляется возврат в вызывающую функцию с параметром 0. Если же проверочная функция возвращает false,то ожидание приема продолжается. По истечении заданного времени ожидания, функция возвращает MBEE_WAIT_TIMEOUT (0xFF). Если фрейм был отправлен с ненулевым frameID, то на него модуль должен получить ответ со статусом. Если статус не равен 0 т.е. имела место какая-либо ошибка, то ожидание прекращается и этот статусный байт передается как результат работы функции. Такое поведение объясняется следующим: если фрейм предназначался для передачи по эфиру, то наличие ошибок при его обработке/отправке(например вследствие занятости частотного канала) приводит к тому, в эфир он не уйдет и, следовательно, ответа на него удаленного узла ждать бессмысленно. Во время ожидания, любой принятый пакет передается в соответствующую callback-функцию также, как бы это происходило при непрерывном вызове <a class="el" href="class_serial_star_with_callbacks.html#a1a47611de270717aa2caa88f34a9c4ad" title="Главный цикл. ">run()</a> исключая только те фреймы, которые передаются в OnResponse() и никуда более. После вызова этого метода, пакет может быть получен с помощью обычного вызова getResponse(). </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01176">1176</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_serial_star_8h_source.html">SerialStar.h</a> строка <a class="el" href="_serial_star_8h_source.html#l01177">1177</a></p>
 
 </div>
 </div>
