@@ -31,7 +31,7 @@ Code adapted from  XBee-Arduino library XBee.h. Copyright info below.
 #ifndef SerialStar_h
 #define SerialStar_h
 
-//Режим последовательного интерфейса должен быть установлен в пакетный с escape-символами в направлении Модуль->Хост. В направлении Хост->Модуль пакетный режим без escape-символов.
+//Режим последовательного интерфейса должен быть установлен в пакетный с escape-символами в направлении Модуль->Хост. В направлении хост->модуль пакетный режим без escape-символов.
 #define ATAP 2 
 
 //Escape-символы.
@@ -67,7 +67,8 @@ Code adapted from  XBee-Arduino library XBee.h. Copyright info below.
 
 //Биты регистра DM (Device Mode).
 #define DEVICE_MODE_BROADCAST_RECEIVE_BIT 0 //Если данный бит равен 1, то прием широковещательных пакетов запрещен.
-#define DEVICE_MODE_ADC_REF_BIT           1 //Бит, управляющий опорным напряжением АЦП. Если этот бит равен 0, то опорное напряжение устанавливается равным 2,5В, если 1, то опорное напряжение равно 1,5В.
+#define DEVICE_MODE_ADC_REF_BIT           1 //Бит, управляющий опорным напряжением. Равен 0, если опорное напряжение 2,5В и 1, если 1,5В.      
+#define DEVICE_MODE_REPEATER_BIT          2 //Бит, включающий/выключающий функцию ретрансляции пакетов.
 #define DEVICE_MODE_CCA_BIT               4 //Бит, управляющий режимом CCA при передаче пакетов в прозрачном режиме UART. Если равен 1, то CCA отключено.
 #define DEVICE_MODE_ENCRYPTION_BIT        5 //Бит, управляющий шифрованием трафика в прозрачном режиме UART. Если равен 1, то шифрование включено.
 
@@ -99,8 +100,8 @@ Code adapted from  XBee-Arduino library XBee.h. Copyright info below.
 //Линии ввода/вывода.
 
 //Состояние цифрового входа/выхода.
-#define LOW  0
-#define HIGH 1
+#define LOW  0x0
+#define HIGH 0x1
 
 //Идентификаторы линий ввода/вывода. Идентификаторы соответствуют номерам физических выводов модуля MBee-868-x.0.
 #define L0_ID   2
