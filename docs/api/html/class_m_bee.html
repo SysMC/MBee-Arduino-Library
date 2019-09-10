@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>MBee C++ library: Класс MBee</title>
+<title>MBee Arduino library: Класс MBee</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,7 +22,7 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="MBee.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">MBee C++ library
+   <div id="projectname">MBee Arduino library
    </div>
   </td>
  </tr>
@@ -68,6 +68,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Основной интерфейс для связи с радиомодулями <a class="el" href="class_m_bee.html" title="Основной интерфейс для связи с радиомодулями MBee всех серий. ">MBee</a> всех серий.  
+ <a href="class_m_bee.html#details">Подробнее...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_m_bee_8h_source.html">MBee.h</a>&gt;</code></p>
 <div class="dynheader">
 Граф наследования:MBee:</div>
@@ -75,109 +78,63 @@ $(function() {
  <div class="center">
   <img src="class_m_bee.png" usemap="#MBee_map" alt=""/>
   <map id="MBee_map" name="MBee_map">
-<area href="class_m_bee2400.html" alt="MBee2400" shape="rect" coords="0,56,147,80"/>
-<area href="class_m_bee868.html" alt="MBee868" shape="rect" coords="157,56,304,80"/>
-<area href="class_serial_star.html" alt="SerialStar" shape="rect" coords="157,112,304,136"/>
-<area href="class_serial_star_with_callbacks.html" alt="SerialStarWithCallbacks" shape="rect" coords="157,168,304,192"/>
+<area href="class_m_bee2400.html" title="Базовый класс для работы с модулями диапазона 2,4 ГГц. " alt="MBee2400" shape="rect" coords="0,56,147,80"/>
+<area href="class_m_bee868.html" title="Базовый класс для работы с модулями диапазона 868 МГц. " alt="MBee868" shape="rect" coords="157,56,304,80"/>
+<area href="class_m_b___zig_bee.html" title="Класс для проекта MB-ZigBee диапазона 2.4 ГГц. " alt="MB_ZigBee" shape="rect" coords="0,112,147,136"/>
+<area href="class_serial_star.html" title="Класс для проекта SerialStar диапазона 868 МГц. " alt="SerialStar" shape="rect" coords="157,112,304,136"/>
+<area href="class_serial_star_with_callbacks.html" title="Этот класс может быть использован вместо класса SerialStar и позволяет самостоятельно создавать функц..." alt="SerialStarWithCallbacks" shape="rect" coords="157,168,304,192"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Открытые члены</h2></td></tr>
 <tr class="memitem:af8382041415c32bc5c51a0a76e767aca"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#af8382041415c32bc5c51a0a76e767aca">readPacket</a> ()=0</td></tr>
+<tr class="memdesc:af8382041415c32bc5c51a0a76e767aca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Чтение всех байт, имеющихся в приемном буфере UART.  <a href="#af8382041415c32bc5c51a0a76e767aca">Подробнее...</a><br /></td></tr>
 <tr class="separator:af8382041415c32bc5c51a0a76e767aca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11895d60d118c9edee825847a1e5b61d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a11895d60d118c9edee825847a1e5b61d">readPacket</a> (int timeout)=0</td></tr>
+<tr class="memdesc:a11895d60d118c9edee825847a1e5b61d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ожидает приема пакета от модуля в течение <em>timeout</em> миллисекунд.  <a href="#a11895d60d118c9edee825847a1e5b61d">Подробнее...</a><br /></td></tr>
 <tr class="separator:a11895d60d118c9edee825847a1e5b61d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90cfd2f62c736a4a79f298e70236bbec"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a90cfd2f62c736a4a79f298e70236bbec">readPacketUntilAvailable</a> ()=0</td></tr>
+<tr class="memdesc:a90cfd2f62c736a4a79f298e70236bbec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ожидает приема пакета до тех пор, пока он не будет получен или не произойдет какая-либо ошибка.  <a href="#a90cfd2f62c736a4a79f298e70236bbec">Подробнее...</a><br /></td></tr>
 <tr class="separator:a90cfd2f62c736a4a79f298e70236bbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2773c57b5447c92d19269b64557a63f6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a2773c57b5447c92d19269b64557a63f6">send</a> (void *)=0</td></tr>
+<tr class="memdesc:a2773c57b5447c92d19269b64557a63f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Передача данных модулю или удаленному узлу.  <a href="#a2773c57b5447c92d19269b64557a63f6">Подробнее...</a><br /></td></tr>
 <tr class="separator:a2773c57b5447c92d19269b64557a63f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7a6c9a0bd0ceb46e83a32bfac9dd79d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#ae7a6c9a0bd0ceb46e83a32bfac9dd79d">begin</a> (<a class="el" href="class_stream.html">Stream</a> &amp;serial)</td></tr>
+<tr class="memitem:ae7a6c9a0bd0ceb46e83a32bfac9dd79d"><td class="memItemLeft" align="right" valign="top"><a id="ae7a6c9a0bd0ceb46e83a32bfac9dd79d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#ae7a6c9a0bd0ceb46e83a32bfac9dd79d">begin</a> (Stream &amp;serial)</td></tr>
+<tr class="memdesc:ae7a6c9a0bd0ceb46e83a32bfac9dd79d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Инициализирует соединение с радиомодулем на заданном COM-порте. <br /></td></tr>
 <tr class="separator:ae7a6c9a0bd0ceb46e83a32bfac9dd79d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a380be1430c9b264329a0465db3f7a0f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a380be1430c9b264329a0465db3f7a0f1">setSerial</a> (<a class="el" href="class_stream.html">Stream</a> &amp;serial)</td></tr>
+<tr class="memitem:a380be1430c9b264329a0465db3f7a0f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a380be1430c9b264329a0465db3f7a0f1">setSerial</a> (Stream &amp;serial)</td></tr>
+<tr class="memdesc:a380be1430c9b264329a0465db3f7a0f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Назначает последовательный порт.  <a href="#a380be1430c9b264329a0465db3f7a0f1">Подробнее...</a><br /></td></tr>
 <tr class="separator:a380be1430c9b264329a0465db3f7a0f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48a3b31518f8422ba462befac4bef9dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a48a3b31518f8422ba462befac4bef9dc">available</a> ()</td></tr>
+<tr class="memitem:a48a3b31518f8422ba462befac4bef9dc"><td class="memItemLeft" align="right" valign="top"><a id="a48a3b31518f8422ba462befac4bef9dc"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a48a3b31518f8422ba462befac4bef9dc">available</a> ()</td></tr>
+<tr class="memdesc:a48a3b31518f8422ba462befac4bef9dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Проверяет наличие принятых данных в буфере UART. <br /></td></tr>
 <tr class="separator:a48a3b31518f8422ba462befac4bef9dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a6c7407cf417e74f6759d9aae28bae5"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a6a6c7407cf417e74f6759d9aae28bae5">read</a> ()</td></tr>
+<tr class="memitem:a6a6c7407cf417e74f6759d9aae28bae5"><td class="memItemLeft" align="right" valign="top"><a id="a6a6c7407cf417e74f6759d9aae28bae5"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a6a6c7407cf417e74f6759d9aae28bae5">read</a> ()</td></tr>
+<tr class="memdesc:a6a6c7407cf417e74f6759d9aae28bae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Считывает 1 байт из входного буфера UART. <br /></td></tr>
 <tr class="separator:a6a6c7407cf417e74f6759d9aae28bae5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d0e09cde51b5686fdf961c9b01e5fb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a3d0e09cde51b5686fdf961c9b01e5fb8">write</a> (uint8_t val)</td></tr>
+<tr class="memitem:a3d0e09cde51b5686fdf961c9b01e5fb8"><td class="memItemLeft" align="right" valign="top"><a id="a3d0e09cde51b5686fdf961c9b01e5fb8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_m_bee.html#a3d0e09cde51b5686fdf961c9b01e5fb8">write</a> (uint8_t val)</td></tr>
+<tr class="memdesc:a3d0e09cde51b5686fdf961c9b01e5fb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Передает 1 байт по UART. <br /></td></tr>
 <tr class="separator:a3d0e09cde51b5686fdf961c9b01e5fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Открытые атрибуты</h2></td></tr>
 <tr class="memitem:a5dbd5beb4a144b0f6242e5befff3b880"><td class="memItemLeft" align="right" valign="top"><a id="a5dbd5beb4a144b0f6242e5befff3b880"></a>
-<a class="el" href="class_stream.html">Stream</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td></tr>
+Stream *&#160;</td><td class="memItemRight" valign="bottom"><b>_serial</b></td></tr>
 <tr class="separator:a5dbd5beb4a144b0f6242e5befff3b880"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
-<div class="textblock"><p>Основной интерфейс для связи с радиомодулями <a class="el" href="class_m_bee.html">MBee</a> всех серий. Содержит функции для отправки и приема пакетов по радио через UART интерфейс. Необходимо, чтобы модуль находился в пакетном режиме UART как на прием, так и на передачу. </p>
-<p>Код исполняется в одном потоке, поэтому необходимо, чтобы чтение данных из буфера выполнялась бы со скоростью, превыщающей их поступление от модуля. В противном случае будет иметь место потеря данных. Во избежание этого пользователь библиотеки должен самостоятельно определить период вызова функций, выполняющих чтение приемного буфера UART таких как readPacket(...). </p>
-<p>Библиотека поддерживает хранение только одного принятого пакета в каждый момент времени. Это означает, то программа должна полностью обработать предыдущий пакет, прежде чем вызывать очередную функцию чтения readPacket(...). </p>
+<div class="textblock"><p>Основной интерфейс для связи с радиомодулями <a class="el" href="class_m_bee.html" title="Основной интерфейс для связи с радиомодулями MBee всех серий. ">MBee</a> всех серий. </p>
+<p>Содержит функции для отправки и приема пакетов по радио через UART интерфейс. Необходимо, чтобы модуль находился в пакетном режиме UART как на прием, так и на передачу. </p>
+<p>Код исполняется микроконтроллером в одном потоке, поэтому необходимо, чтобы чтение данных из буфера выполнялась бы со скоростью, превыщающей их поступление от модуля. В противном случае будет иметь место потеря данных. Поскольку Ардуино имеет длину приемного буфера всего 128 байт, его могут переполнить всего 2 эфирных пакета. Во избежание этого пользователь библиотеки должен самостоятельно определить период вызова функций, выполняющих чтение приемного буфера UART таких как readPacket(...). </p>
+<p>С целью экономии ресурсов микроконтроллера Arduino, библиотека поддерживает хранение только одного принятого пакета в каждый момент времени. Это означает, то скетч должен полностью обработать предыдущий пакет, прежде чем вызывать очередную функцию чтения readPacket(...). </p>
 <p>Размер памяти для хранения принятого пакета определяется константой MAX_FRAME_DATA_SIZE, которая зависит от программного обеспечения, загруженного в радиомодуль. Эта константа соответствует максимально возможной длине пакета от модуля. Если в Вашем проекте используются пакеты с длиной меньше максимальной, то Вы можете точно настроить значение константы MAX_FRAME_DATA_SIZE с целью экономии ресурсов микроконтроллера. </p><dl class="section author"><dt>Автор</dt><dd>von Boduen. Special thanx to Andrew Rapp. </dd></dl>
 
-<p class="definition">См. определение в файле <a class="el" href="_m_bee_8h_source.html">MBee.h</a> строка <a class="el" href="_m_bee_8h_source.html#l00110">110</a></p>
+<p class="definition">См. определение в файле <a class="el" href="_m_bee_8h_source.html">MBee.h</a> строка <a class="el" href="_m_bee_8h_source.html#l00114">114</a></p>
 </div><h2 class="groupheader">Методы</h2>
-<a id="a48a3b31518f8422ba462befac4bef9dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48a3b31518f8422ba462befac4bef9dc">&#9670;&nbsp;</a></span>available()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool MBee::available </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Проверяет наличие принятых данных в буфере UART. </p>
-
-<p class="definition">См. определение в файле <a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a> строка <a class="el" href="_m_bee_8cpp_source.html#l00045">45</a></p>
-
-</div>
-</div>
-<a id="ae7a6c9a0bd0ceb46e83a32bfac9dd79d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7a6c9a0bd0ceb46e83a32bfac9dd79d">&#9670;&nbsp;</a></span>begin()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MBee::begin </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_stream.html">Stream</a> &amp;&#160;</td>
-          <td class="paramname"><em>serial</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Инициализирует соединение с радиомодулем на заданном COM-порте. </p>
-
-<p class="definition">См. определение в файле <a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a> строка <a class="el" href="_m_bee_8cpp_source.html#l00035">35</a></p>
-
-</div>
-</div>
-<a id="a6a6c7407cf417e74f6759d9aae28bae5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a6c7407cf417e74f6759d9aae28bae5">&#9670;&nbsp;</a></span>read()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t MBee::read </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Считывает 1 байт из входного буфера UART. </p>
-
-<p class="definition">См. определение в файле <a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a> строка <a class="el" href="_m_bee_8cpp_source.html#l00050">50</a></p>
-
-</div>
-</div>
 <a id="af8382041415c32bc5c51a0a76e767aca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af8382041415c32bc5c51a0a76e767aca">&#9670;&nbsp;</a></span>readPacket() <span class="overload">[1/2]</span></h2>
 
@@ -200,11 +157,13 @@ $(function() {
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Чтение всех байт, имеющихся в приемном буфере UART. Выполняется до тех пор, пока пакет не будет разобран полностью, не опустошится буфер или не произойдет какая-либо ошибка. Вы можете вызывать <em><a class="el" href="class_m_bee.html">MBee</a></em>.getResponse().isAvailable() после вызова этой функции, для того, чтобы определить был ли принят пакет. Для получения информации об ошибках при приеме пакета пользуйтесь методом <em><a class="el" href="class_m_bee.html">MBee</a></em>.getResponse().isError(). </p>
+
+<p>Чтение всех байт, имеющихся в приемном буфере UART. </p>
+<p>Выполняется до тех пор, пока пакет не будет разобран полностью, не опустошится буфер или не произойдет какая-либо ошибка. Вы можете вызывать <em><a class="el" href="class_m_bee.html" title="Основной интерфейс для связи с радиомодулями MBee всех серий. ">MBee</a></em>.getResponse().isAvailable() после вызова этой функции, для того, чтобы определить был ли принят пакет. Для получения информации об ошибках при приеме пакета пользуйтесь методом <em><a class="el" href="class_m_bee.html" title="Основной интерфейс для связи с радиомодулями MBee всех серий. ">MBee</a></em>.getResponse().isError(). </p>
 <p>Функция работает быстро, потому что не ждет получения данных по UART, а работает с байтами, имеющимися в буфере на момент вызова. </p>
 <p>ВНИМАНИЕ! Вызов этой функции очищает буфер принятого сообщения, следовательно перед ее вызовом предыдущее сообщение должно быть полностью обработано. Метод является чисто виртуальным (pure virtual), поэтому используется присваивание = 0; </p>
 
-<p>Замещается в <a class="el" href="class_serial_star.html#ab3e035dd7818ce3ee2fbf72f0eb6076e">SerialStar</a>.</p>
+<p>Замещается в <a class="el" href="class_serial_star.html#ab3e035dd7818ce3ee2fbf72f0eb6076e">SerialStar</a> и <a class="el" href="class_m_b___zig_bee.html#ac683c9e0f5d228512dd19c7ff61d8de3">MB_ZigBee</a>.</p>
 
 </div>
 </div>
@@ -231,7 +190,9 @@ $(function() {
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Ожидает приема пакета от модуля в течение <em>timeout</em> миллисекунд. Возвращает true, если пакет принят и false, если заданный интервал истек. Метод является чисто виртуальным (pure virtual), поэтому используется присваивание = 0; </p>
+
+<p>Ожидает приема пакета от модуля в течение <em>timeout</em> миллисекунд. </p>
+<p>Возвращает true, если пакет принят и false, если заданный интервал истек. Метод является чисто виртуальным (pure virtual), поэтому используется присваивание = 0; </p>
 
 <p>Замещается в <a class="el" href="class_serial_star.html#a377fa2d13cab5e2f5bb8a5623361361c">SerialStar</a>.</p>
 
@@ -259,7 +220,9 @@ $(function() {
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Ожидает приема пакета до тех пор, пока он не будет получен или не произойдет какая-либо ошибка. ВНИМАНИЕ! Использовать эту функцию следует осторожно, поскольку Ардуино может зависнуть, если пакет (с ошибками или без) так и не будет принят. Метод является чисто виртуальным (pure virtual), поэтому используется присваивание = 0; </p>
+
+<p>Ожидает приема пакета до тех пор, пока он не будет получен или не произойдет какая-либо ошибка. </p>
+<p>ВНИМАНИЕ! Использовать эту функцию следует осторожно, поскольку Ардуино может зависнуть, если пакет (с ошибками или без) так и не будет принят. Метод является чисто виртуальным (pure virtual), поэтому используется присваивание = 0; </p>
 
 <p>Замещается в <a class="el" href="class_serial_star.html#a88ab87f26fd2615b4c43fd6a36bf37ca">SerialStar</a>.</p>
 
@@ -288,7 +251,9 @@ $(function() {
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Передача данных модулю или удаленному узлу. Формат пакета зависит от типа объекта (программного обеспечения модуля). См. справку по поддерживаемым методам для конкретного проекта (<a class="el" href="class_serial_star.html">SerialStar</a>, MB-ZigBee и т.д). Метод является чисто виртуальным (pure virtual), поэтому используется присваивание = 0; </p>
+
+<p>Передача данных модулю или удаленному узлу. </p>
+<p>Формат пакета зависит от типа объекта (программного обеспечения модуля). См. справку по поддерживаемым методам для конкретного проекта (<a class="el" href="class_serial_star.html" title="Класс для проекта SerialStar диапазона 868 МГц. ">SerialStar</a>, MB-ZigBee и т.д). Метод является чисто виртуальным (pure virtual), поэтому используется присваивание = 0; </p>
 
 <p>Замещается в <a class="el" href="class_serial_star.html#a2ebc218ace065aea834a939bcd1fd15b">SerialStar</a>.</p>
 
@@ -303,41 +268,22 @@ $(function() {
         <tr>
           <td class="memname">void MBee::setSerial </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_stream.html">Stream</a> &amp;&#160;</td>
+          <td class="paramtype">Stream &amp;&#160;</td>
           <td class="paramname"><em>serial</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Назначает последовательный порт. Работает только на платах с несколькими аппаратными UART (Mega и т.п.) </p>
 
-<p class="definition">См. определение в файле <a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a> строка <a class="el" href="_m_bee_8cpp_source.html#l00040">40</a></p>
+<p>Назначает последовательный порт. </p>
+<p>Работает только на платах с несколькими аппаратными UART (Mega и т.п.) </p>
 
-</div>
-</div>
-<a id="a3d0e09cde51b5686fdf961c9b01e5fb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d0e09cde51b5686fdf961c9b01e5fb8">&#9670;&nbsp;</a></span>write()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void MBee::write </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>val</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Передает 1 байт по UART. </p>
-
-<p class="definition">См. определение в файле <a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a> строка <a class="el" href="_m_bee_8cpp_source.html#l00055">55</a></p>
-
+<p class="definition">См. определение в файле <a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a> строка <a class="el" href="_m_bee_8cpp_source.html#l00050">50</a></p>
+<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;{</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  _serial = &amp;serial;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>Объявления и описания членов классов находятся в файлах:<ul>
-<li>includes/<a class="el" href="_m_bee_8h_source.html">MBee.h</a></li>
+<li><a class="el" href="_m_bee_8h_source.html">MBee.h</a></li>
 <li><a class="el" href="_m_bee_8cpp_source.html">MBee.cpp</a></li>
 </ul>
 </div><!-- contents -->

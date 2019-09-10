@@ -91,7 +91,7 @@ Code adapted from  XBee-Arduino library XBee.h. Copyright info below.
 #define PACKET_ACKNOWLEDGED_BIT 0
 #define PACKET_WAS_BROADCAST_BIT  1
 
-#define MAX_FRAME_DATA_SIZE 45 //2 байта адреса + 1 байт RSSI + 1 байт options + 40 байт данные)
+#define MAX_FRAME_DATA_SIZE 44 //2 байта адреса + 1 байт RSSI + 1 байт options + 40 байт данные)
 #define BROADCAST_ADDRESS 0xFFFF
 
 //Значения "по умолчанию".

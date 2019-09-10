@@ -1050,7 +1050,7 @@ void SerialStar::readPacket()
       break;
     default:
       //Далее разбираются байты, следующие за 4-ым.
-      if(_pos > MAX_FRAME_DATA_SIZE)
+      if(_pos > MAX_FRAME_DATA_SIZE + 4)
       {
         _response.setErrorCode(PACKET_EXCEEDS_BYTE_ARRAY_LENGTH); //Длина пакета превышает максимально допустимую.
         return;
