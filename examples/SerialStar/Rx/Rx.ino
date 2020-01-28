@@ -73,14 +73,16 @@ void loop()
   mbee.readPacket(); //Постоянно проверяем наличие данных от модема.
   if(mbee.getResponse().isAvailable()) 
   {
-    if(mbee.getResponse().getApiId() == RECEIVE_PACKET_API_FRAME || mbee.getResponse().getApiId() == RECEIVE_PACKET_NO_OPTIONS_API_FRAME) 
+    if(mbee.getResponse().getApiId() == RECEIVE_PACKET_API_FRAME || mbee.getResponse().getApiId() == RECEIVE_PACKET_NO_OPTIONS_API_FRAME || mbee.getResponse().getApiId() == RECEIVE_PACKET_EXTENDED_API_FRAME || mbee.getResponse().getApiId() == RECEIVE_PACKET_NO_OPTIONS_EXTENDED_API_FRAME) 
     {
       mbee.getResponse().getRxResponse(rx); //Получаем пакет с данными.
       //Ниже приводятся некоторые функции доступа к различным полям пакета.
-      //uint16_t remoteAddress = rx.getRemoteAddress(); //Получение адреса отправителя.
+      //uint16_t remoteAddress = rx.getRemoteAddress(); //Получение адреса источника пакета.
       //uint8_t rssi = rx.getRssi(); //Получения уровня сигнала на входе модуля на момент приема данного пакета. Передается в виде числа со знаком в дополнительном коде.
       //bool broadcastIndicator = rx.isAddressBroadcast(); //Является ли принятый пакет широковещательным?
       //bool acknowledgeIndicator = rx.isAcknowledged(); //Было ли отправлено подтверждение приема данного пакета? 
+      //uint8_t frameId = rx.getFrameId(); //Получение идентификатора фрейма.
+      //uint16_t previousHopAddress = rx.getPreviousHopAddress(); //Получение адреса непосредственного отправителя пакета.
       if(rx.getDataLength() == 1) //Ожидаем, что передается только 1 байт.
       {
         data = rx.getData()[0]; //Считываем принятый байт данных.

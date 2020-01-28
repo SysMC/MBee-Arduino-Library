@@ -1,4 +1,4 @@
-﻿/* "Системы модули и компоненты" ("СМК"). 2017. Москва.
+﻿/* "Системы модули и компоненты" ("СМК"). 2020. Москва.
 Библиотека MBee-Arduino.
 Распространяется свободно. Надеемся, что программные продукты, созданные
 с помощью данной библиотеки будут полезными, однако никакие гарантии, явные или
@@ -7,7 +7,7 @@
 The MIT License(MIT)
 
 MBee-Arduino Library.
-Copyright © 2017 Systems, modules and components. Moscow. Russia.
+Copyright © 2020 Systems, modules and components. Moscow. Russia.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files(the "Software"), to deal in the Software without restriction, including without limitation

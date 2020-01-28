@@ -94,7 +94,16 @@ void rxIoSampleResponseCallback(RxIoSampleResponse& ioSample, uintptr_t optional
   nss.print("Received packet with I/O samples from remote modem with address: ");
   nss.println(ioSample.getRemoteAddress(), HEX); //Печатаем адрес отправителя.
   nss.println("");
-
+  
+  if(ioSample.getExtendedFieldsLength()) //Принятый фрейм имеет расширенный или стандартный формат.
+  {
+    nss.print("Frame identificator: ");
+    nss.println(ioSample.getFrameId(), DEC);
+    nss.print("Previous hop address: ");
+    nss.println(ioSample.getPreviousHopAddress(), HEX);
+    nss.println("");
+  }
+  
   /**********************************************************************************************************/
   nss.print("Temperature of the module is "); //Выводим температуру удаленного модема по показаниям встроенного датчика.
   if(ioSample.getTemperature() < 128) //Переводим число из дополнительного кода в прямой.

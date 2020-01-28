@@ -79,6 +79,8 @@ void rxResponseCallback(RxResponse& rx, uintptr_t optionalParameter)
   //uint8_t rssi = rx.getRssi(); //Получения уровня сигнала на входе модуля на момент приема данного пакета. Передается в виде числа со знаком в дополнительном коде.
   //bool broadcastIndicator = rx.isAddressBroadcast(); //Является ли принятый пакет широковещательным?
   //bool acknowledgeIndicator = rx.isAcknowledged(); //Было ли отправлено подтверждение приема данного пакета? 
+  //uint8_t frameId = rx.getFrameId(); //Получение идентификатора фрейма.
+  //uint16_t previousHopAddress = rx.getPreviousHopAddress(); //Получение адреса непосредственного отправителя пакета.
   if(rx.getDataLength() == 1) //Ожидаем, что передается только 1 байт.
   {
     data = rx.getData()[0]; //Считываем принятый байт данных.
